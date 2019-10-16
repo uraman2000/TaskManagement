@@ -10,6 +10,7 @@
     "@types/react": "16.9.6",
     "@types/react-dom": "16.9.2",
     "react": "^16.10.2",
+    "react-dnd": "^9.4.0",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
     "typescript": "3.6.4"
