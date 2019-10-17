@@ -1,31 +1,38 @@
-import React from "react";
-import { createDecipher } from "crypto";
+import React, { Component, ReactChildren, ReactNode } from "react";
 
-function Board(props: IBoardsProps) {
-  const drop = (e: any) => {
+class Board extends Component<IBoardProps, {}> {
+  constructor(props: IBoardProps) {
+    super(props);
+
+    this.state = {};
+  }
+
+  drop = (e: any) => {
     e.preventDefault();
-    const card_id = e.dataTransfer.getData("card_id");
-    const card = document.getElementById(card_id);
-    console.log(card);
-    // console.log(e.dataTransfer);
-    // card!.style.display = "block";
-    // e.target.appendChild(card);
+    const data = e.dataTransfer.getData("card_id");
+    e.target.appendChild(document.getElementById(data));
   };
 
-  const dragOver = (e: any) => {
+  allowDrop = (e: any) => {
     e.preventDefault();
   };
-
-  return (
-    <div id={props.id} className={props.className} onDrag={drop} onDragOver={dragOver}>
-      {props.children}
-    </div>
-  );
+  render() {
+    console.log(this.props.style);
+    return (
+      <div 
+      id={this.props.id} 
+      onDrop={this.drop} 
+      onDragOver={this.allowDrop} 
+      className={this.props.style}>
+        {this.props.children}
+      </div>
+    );
+  }
 }
 
-interface IBoardsProps {
+interface IBoardProps {
   id: string;
-  className: string;
-  children: any;
+  style: any;
+  children: ReactNode;
 }
 export default Board;

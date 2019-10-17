@@ -1,35 +1,36 @@
-import React from "react";
+import React, { Component, ReactChildren, ReactNode } from "react";
 
-function Card(props: ICardProps) {
-  const dragStart = (e: any) => {
-    const target = e.target;
-    e.dataTransfer.setData("card_id", target.id);
+export default class Card extends Component<ICardProps, {}> {
+  constructor(props: ICardProps) {
+    super(props);
 
-    setTimeout(() => {
-      target.style.display = "none";
-    }, 0);
+    this.state = {};
+  }
+
+  drag = (e: any) => {
+    e.dataTransfer.setData("card_id", e.target.id);
   };
-  const dragOver = (e: any) => {
+
+  noAllowDrop = (e: any) => {
     e.stopPropagation();
   };
-  return (
-    <div
-      id={props.id}
-      className={props.className}
-      draggable={props.dragable}
-      onDragStart={dragStart}
-      onDragOver={dragOver}
-    >
-      {props.children}
-    </div>
-  );
+  render() {
+    return (
+      <div
+        id={this.props.id}
+        draggable={true}
+        onDragStart={this.drag}
+        onDragOver={this.noAllowDrop}
+        className={this.props.style}
+      >
+        {this.props.children}
+      </div>
+    );
+  }
 }
 
 interface ICardProps {
   id: string;
-  className: string;
-  children: any;
-  dragable: boolean;
+  style: any;
+  children: ReactNode;
 }
-
-export default Card;
