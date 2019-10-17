@@ -4,6 +4,7 @@ function Card(props: ICardProps) {
   const dragStart = (e: any) => {
     const target = e.target;
     e.dataTransfer.setData("card_id", target.id);
+
     setTimeout(() => {
       target.style.display = "none";
     }, 0);
@@ -18,7 +19,9 @@ function Card(props: ICardProps) {
       draggable={props.dragable}
       onDragStart={dragStart}
       onDragOver={dragOver}
-    ></div>
+    >
+      {props.children}
+    </div>
   );
 }
 
