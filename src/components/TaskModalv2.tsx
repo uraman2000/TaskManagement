@@ -18,10 +18,11 @@ const useStyles = makeStyles((theme: Theme) =>
       minHeight: "40px",
       display: "block",
       textAlign: "left",
-      width: "100%"
+      width: "100%",
+      textTransform : "none"
     },
     textAreaTextField: {
-    //   minHeight: "108px"
+      //   minHeight: "108px"
     }
   })
 );
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function TaskModalv2() {
   const [open, setOpen] = React.useState(false);
   const [openTextArea, setopenTextArea] = React.useState(false);
-
+  const [textAreaInput, setTextAreaInput] = React.useState("");
   const classes = useStyles();
   const handleClickOpen = () => {
     setOpen(true);
@@ -51,9 +52,12 @@ export default function TaskModalv2() {
   //   });
 
   const onOutFocus = () => {
-    //  setopenTextArea(false);
+    setopenTextArea(false);
   };
 
+  const handleTextFieldChange = (e: any) => {
+    setTextAreaInput(e.target.value);
+  };
   return (
     <Paper>
       <Button onClick={handleClickOpen}>scroll=body</Button>
@@ -72,7 +76,7 @@ export default function TaskModalv2() {
             <Grid item xs={9}>
               {!openTextArea ? (
                 <Button onClick={handleTextArea} className={classes.textAreaButton}>
-                  {"Add a more detailed description…"}
+                  {textAreaInput ? textAreaInput : "Add a more detailed description…"}
                 </Button>
               ) : (
                 <TextField
@@ -80,6 +84,8 @@ export default function TaskModalv2() {
                   fullWidth
                   rows="8"
                   onBlur={onOutFocus}
+                  value={textAreaInput}
+                  onChange={(e: any) => handleTextFieldChange(e)}
                   autoFocus
                   id="filled-dense-multiline"
                   label="Description"
