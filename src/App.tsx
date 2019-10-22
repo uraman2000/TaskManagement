@@ -1,54 +1,136 @@
 import React, { Component } from "react";
-import { makeStyles, withStyles, createStyles } from "@material-ui/styles";
-import Board from "./components/Board";
-import Card from "./components/Card";
+import Column from "./components/Column";
+import { DragDropContext } from "react-beautiful-dnd";
+import styled from "styled-components";
+import TaskModal from "./components/TaskModal";
 
-const useStyles = createStyles({
-  wrapper: {
-    width: "100%",
-    padding: "32px",
-    display: "flex",
-    justifyContent: "center"
+const initData: IAppProps = {
+  tasks: {
+    "task-1": { id: "task-1", title: "Take out the garbage", description: "this is desc" },
+    "task-2": { id: "task-2", title: "Watch my favorite show", description: "this is desc" },
+    "task-3": { id: "task-3", title: "Charge my phone", description: "this is desc" },
+    "task-4": { id: "task-4", title: "Cook dinner", description: "this is desc" }
   },
-  item: {
-    paddig: 8,
-    color: "#555",
-    backgroundColor: "white",
-    boarderRadius: 3
+  columns: {
+    "column-1": {
+      id: "column-1",
+      title: "To do",
+      taskIds: ["task-1", "task-2", "task-3", "task-4"]
+    },
+    "column-2": {
+      id: "column-2",
+      title: "In progress",
+      taskIds: []
+    },
+    "column-3": {
+      id: "column-3",
+      title: "Done",
+      taskIds: []
+    }
   },
-  board: {
-    backgroundColor: "#555",
-    width: 250,
-    height: 400,
-    margin: 32
-  },
-  card: {
-    margin: 8
+  // Facilitate reordering of the columns
+  columnOrder: ["column-1", "column-2", "column-3"]
+};
+
+const Container = styled.div`
+  display: flex;
+`;
+class App extends Component {
+  state = initData;
+
+  onDragEnd = (result: any) => {
+    const { destination, source, draggableId } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      return;
+    }
+
+    const start = this.state.columns[source.droppableId];
+    const finish = this.state.columns[destination.droppableId];
+
+    if (start === finish) {
+      const newTaskIds = Array.from(start.taskIds);
+      newTaskIds.splice(source.index, 1);
+      newTaskIds.splice(destination.index, 0, draggableId);
+
+      const newColumn = {
+        ...start,
+        taskIds: newTaskIds
+      };
+
+      const newState = {
+        ...this.state,
+        columns: {
+          ...this.state.columns,
+          [newColumn.id]: newColumn
+        }
+      };
+
+      this.setState(newState);
+      return;
+    }
+
+    // Moving from one list to another
+    const startTaskIds = Array.from(start.taskIds);
+    startTaskIds.splice(source.index, 1);
+    const newStart = {
+      ...start,
+      taskIds: startTaskIds
+    };
+
+    const finishTaskIds = Array.from(finish.taskIds);
+    finishTaskIds.splice(destination.index, 0, draggableId);
+    const newFinish = {
+      ...finish,
+      taskIds: finishTaskIds
+    };
+
+    const newState = {
+      ...this.state,
+      columns: {
+        ...this.state.columns,
+        [newStart.id]: newStart,
+        [newFinish.id]: newFinish
+      }
+    };
+    this.setState(newState);
+  };
+
+  getData() {
+    return this.state.columnOrder.map((columnId: any) => {
+      const column = this.state.columns[columnId];
+      const tasks = column.taskIds.map((taskId: any) => this.state.tasks[taskId]);
+      return <Column key={column.id} column={column} task={tasks} />;
+    });
   }
-});
 
-class App extends Component<IAppProps, any> {
   render() {
-    const classes = this.props.classes;
+    // const classes = this.props.classes;
 
-    console.log(classes);
     return (
       <div>
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          <Container>{this.getData()}</Container>
+        </DragDropContext>
+
+    
         {/* <AppDrawer /> */}
         {/* <AppBar /> */}
-        <div className={classes.wrapper}>
-          <Board id="board-1" className={classes.board}>
-            <Card id="item-1" className={classes.card}>
-              <div className={classes.item}>text</div>
-            </Card>
-          </Board>
-        </div>
+        {/* {this.getData} */}
+        {/* <DragDropContext onDragEnd={this.onDragEnd}>{this.getData}</DragDropContext> */}
       </div>
     );
   }
 }
 
-export default withStyles(useStyles)(App);
+export default App;
+
 interface IAppProps {
-  classes: any;
+  columnOrder: any;
+  tasks: any;
+  columns: any;
 }
