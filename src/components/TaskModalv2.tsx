@@ -6,7 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { Grid, Paper, TextField } from "@material-ui/core";
+import { Grid, Paper, TextField, Hidden, Typography } from "@material-ui/core";
 import { timeout } from "q";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -19,10 +19,11 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "block",
       textAlign: "left",
       width: "100%",
-      textTransform : "none"
+      textTransform: "none",
+      whiteSpace: "pre-line"
     },
-    textAreaTextField: {
-      //   minHeight: "108px"
+    overFLowRemove: {
+      overflow: "Hidden"
     }
   })
 );
@@ -72,15 +73,22 @@ export default function TaskModalv2() {
       >
         <DialogTitle id="scroll-dialog-title"> Title</DialogTitle>
         <DialogContent>
-          <Grid container spacing={3}>
+          {/* {[...new Array(50)]
+            .map(
+              () => `Cras mattis consectetur purus sit amet fermentum.
+Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
+            )
+            .join("\n")} */}
+          <Grid container spacing={3} className={classes.overFLowRemove}>
             <Grid item xs={9}>
               {!openTextArea ? (
-                <Button onClick={handleTextArea} className={classes.textAreaButton}>
+                <Typography noWrap onClick={handleTextArea} className={classes.textAreaButton}>
                   {textAreaInput ? textAreaInput : "Add a more detailed description…"}
-                </Button>
+                </Typography>
               ) : (
                 <TextField
-                  className={classes.textAreaTextField}
                   fullWidth
                   rows="8"
                   onBlur={onOutFocus}
