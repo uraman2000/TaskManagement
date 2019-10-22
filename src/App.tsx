@@ -3,6 +3,8 @@ import Column from "./components/Column";
 import { DragDropContext } from "react-beautiful-dnd";
 import styled from "styled-components";
 import TaskModal from "./components/TaskModal";
+import { Button, Box, Fab } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 
 const initData: IAppProps = {
   tasks: {
@@ -14,6 +16,7 @@ const initData: IAppProps = {
   columns: {
     "column-1": {
       id: "column-1",
+
       title: "To do",
       taskIds: ["task-1", "task-2", "task-3", "task-4"]
     },
@@ -32,9 +35,6 @@ const initData: IAppProps = {
   columnOrder: ["column-1", "column-2", "column-3"]
 };
 
-const Container = styled.div`
-  display: flex;
-`;
 class App extends Component {
   state = initData;
 
@@ -104,20 +104,32 @@ class App extends Component {
     return this.state.columnOrder.map((columnId: any) => {
       const column = this.state.columns[columnId];
       const tasks = column.taskIds.map((taskId: any) => this.state.tasks[taskId]);
-      return <Column key={column.id} column={column} task={tasks} />;
+      return (
+        <Box p={1}>
+          <Column key={column.id} column={column} task={tasks} />
+        </Box>
+      );
     });
   }
-
+  //9 am thurs 11fr
   render() {
     // const classes = this.props.classes;
 
     return (
       <div>
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          <Container>{this.getData()}</Container>
+        <DragDropContext onDragEnd={this.onDragEnd.bind(this)}>
+          {/* <Box display="flex" justifyContent="flex-start"> */}
+          <Box display="flex" alignItems="flex-start">
+            {this.getData()}
+            <Box mt={2}>
+              <Fab variant="extended" size="medium" color="primary" aria-label="add">
+                <AddIcon />
+                add item
+              </Fab>
+            </Box>
+          </Box>
         </DragDropContext>
 
-    
         {/* <AppDrawer /> */}
         {/* <AppBar /> */}
         {/* {this.getData} */}

@@ -27,6 +27,7 @@ export default class TaskModal extends Component<ITaskModalProps, ITaskModalStat
 
   handleClose() {
     this.setState({ open: false });
+    this.props.taskCloseHandler(this.state.open);
   }
 
   componentWillReceiveProps(nextProps: ITaskModalProps) {
@@ -64,6 +65,7 @@ export default class TaskModal extends Component<ITaskModalProps, ITaskModalStat
 
 interface ITaskModalProps {
   open: any;
+  taskCloseHandler: any;
 }
 
 interface ITaskModalState {

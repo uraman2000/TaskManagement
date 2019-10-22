@@ -3,13 +3,13 @@ import Task from "./Task";
 import { Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import TaskModal from "./TaskModal";
+import { Button } from "@material-ui/core";
 
 const Container = styled.div`
   margin: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
   width: 220px;
-
   display: flex;
   flex-direction: column;
 `;
@@ -32,6 +32,7 @@ export default class Column extends Component<IColumnProps, IColumnState> {
     };
     this.taskList = this.taskList.bind(this);
     this.taskClickHandler = this.taskClickHandler.bind(this);
+    this.taskCloseHandler = this.taskCloseHandler.bind(this);
   }
 
   taskClickHandler(e: any) {
@@ -39,14 +40,15 @@ export default class Column extends Component<IColumnProps, IColumnState> {
     this.setState({ open: true });
   }
 
+  taskCloseHandler(e: any) {
+    this.setState({ open: false });
+  }
   taskList() {
     return this.props.task.map((item: any, index: any) => {
       return <Task onClick={this.taskClickHandler} key={item.id} task={item} index={index} />;
     });
   }
-  //ano ang juice ang may black eye
-  //zesto
-  //kc nasa pak
+
   render() {
     return (
       <div>
@@ -65,7 +67,8 @@ export default class Column extends Component<IColumnProps, IColumnState> {
             )}
           </Droppable>
         </Container>
-        <TaskModal open={this.state.open} />
+  
+        <TaskModal open={this.state.open} taskCloseHandler={this.taskCloseHandler} />
       </div>
     );
   }
