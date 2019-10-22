@@ -3,9 +3,19 @@ import Task from "./Task";
 import { Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import TaskModal from "./TaskModal";
-import { Button } from "@material-ui/core";
+import {
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  Typography,
+  Container,
+  Grid,
+  CardHeader
+} from "@material-ui/core";
+import { withStyles } from "@material-ui/styles";
 
-const Container = styled.div`
+const Container2 = styled.div`
   margin: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
@@ -23,7 +33,13 @@ const TaskList = styled.div`
   min-height: 100px;
 `;
 
-export default class Column extends Component<IColumnProps, IColumnState> {
+const styles = {
+  container: {
+    width: 220
+  }
+};
+
+class Column extends Component<IColumnProps, IColumnState> {
   constructor(props: IColumnProps) {
     super(props);
 
@@ -50,34 +66,45 @@ export default class Column extends Component<IColumnProps, IColumnState> {
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
       <div>
-        <Container>
-          <Title>{this.props.column.title}</Title>
-          <Droppable droppableId={this.props.column.id} type="TASK">
-            {(provided: any, snapshot: any) => (
-              <TaskList
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                isDraggingOver={snapshot.isDraggingOver}
-              >
-                {this.taskList()}
-                {provided.placeholder}
-              </TaskList>
-            )}
-          </Droppable>
-        </Container>
-  
+        <Grid>
+          <Card className={classes.container}>
+            {/* <CardHeader title={this.props.column.title}></CardHeader> */}
+
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                {this.props.column.title}
+              </Typography>
+              <Droppable droppableId={this.props.column.id} type="TASK">
+                {(provided: any, snapshot: any) => (
+                  <TaskList
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    isDraggingOver={snapshot.isDraggingOver}
+                  >
+                    {this.taskList()}
+                    {provided.placeholder}
+                  </TaskList>
+                )}
+              </Droppable>
+            </CardContent>
+          </Card>
+        </Grid>
         <TaskModal open={this.state.open} taskCloseHandler={this.taskCloseHandler} />
       </div>
     );
   }
 }
+export default withStyles(styles)(Column);
 
 interface IColumnProps {
   key: string;
   column: any;
   task: any;
+  classes: any;
 }
 
 interface IColumnState {

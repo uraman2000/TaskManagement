@@ -3,8 +3,23 @@ import Column from "./components/Column";
 import { DragDropContext } from "react-beautiful-dnd";
 import styled from "styled-components";
 import TaskModal from "./components/TaskModal";
-import { Button, Box, Fab } from "@material-ui/core";
+import {
+  Button,
+  Box,
+  Fab,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  Typography,
+  CardActions,
+  Container,
+  createMuiTheme,
+  useMediaQuery
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import { grey } from "@material-ui/core/colors";
+import { ThemeProvider } from "@material-ui/styles";
 
 const initData: IAppProps = {
   tasks: {
@@ -34,6 +49,7 @@ const initData: IAppProps = {
   // Facilitate reordering of the columns
   columnOrder: ["column-1", "column-2", "column-3"]
 };
+
 
 class App extends Component {
   state = initData;
@@ -116,7 +132,7 @@ class App extends Component {
     // const classes = this.props.classes;
 
     return (
-      <div>
+      <Container>
         <DragDropContext onDragEnd={this.onDragEnd.bind(this)}>
           {/* <Box display="flex" justifyContent="flex-start"> */}
           <Box display="flex" alignItems="flex-start">
@@ -134,7 +150,7 @@ class App extends Component {
         {/* <AppBar /> */}
         {/* {this.getData} */}
         {/* <DragDropContext onDragEnd={this.onDragEnd}>{this.getData}</DragDropContext> */}
-      </div>
+      </Container>
     );
   }
 }
