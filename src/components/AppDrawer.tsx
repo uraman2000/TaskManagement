@@ -85,6 +85,7 @@ export default function PersistentDrawerLeft() {
 
   const handleDrawerOpen = () => {
     setOpen(true);
+   
   };
 
   const handleDrawerClose = () => {
