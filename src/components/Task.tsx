@@ -28,7 +28,7 @@ export default function Task(props: ITaskProps) {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
-            isDragging={snapshot.isDragging}
+            isdragging={snapshot.isDragging.toString()}
           >
             {props.task.title}
           </Box>

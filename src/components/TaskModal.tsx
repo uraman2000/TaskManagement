@@ -1,13 +1,10 @@
-import React, { Component, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
-  Modal,
-  Fade,
   Button,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  DialogContentText,
   Theme,
   makeStyles,
   createStyles,
@@ -40,16 +37,10 @@ export default function TaskModal(props: ITaskModalProps) {
   const [open, setOpen] = React.useState(false);
   const [openTextArea, setopenTextArea] = React.useState(false);
   const [textAreaInput, setTextAreaInput] = React.useState(props.item.description);
-  const [value, setvalue] = React.useState();
   const classes = useStyles();
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
-
     props.taskCloseHandler(open);
   };
 
@@ -69,14 +60,8 @@ export default function TaskModal(props: ITaskModalProps) {
     setTextAreaInput(e.target.value);
   };
 
-  const ass = () => {
-    // if (props.item) {
-    //   console.log("ass");
-    // }
-  };
   return (
     <Paper>
-      {ass}
       <Dialog
         fullWidth={true}
         maxWidth={"md"}

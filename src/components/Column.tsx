@@ -1,9 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import Task from "./Task";
 import { Droppable } from "react-beautiful-dnd";
 import TaskModal from "./TaskModal";
 import { Card, CardContent, Typography, Grid, Box, makeStyles } from "@material-ui/core";
-import { withStyles } from "@material-ui/styles";
 import { grey } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({
@@ -42,33 +41,31 @@ export default function Column(props: IColumnProps) {
   };
 
   return (
-    <div>
-      <Grid>
-        <Card className={classes.container}>
-          {/* <CardHeader title={this.props.column.title}></CardHeader> */}
+    <Grid>
+      <Card className={classes.container}>
+        {/* <CardHeader title={this.props.column.title}></CardHeader> */}
 
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              {props.column.title}
-            </Typography>
-            <Droppable droppableId={props.column.id} type="TASK">
-              {(provided: any, snapshot: any) => (
-                <Box
-                  className={classes.TaskList}
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  isDraggingOver={snapshot.isDraggingOver}
-                >
-                  {taskList()}
-                  {provided.placeholder}
-                </Box>
-              )}
-            </Droppable>
-          </CardContent>
-        </Card>
-      </Grid>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            {props.column.title}
+          </Typography>
+          <Droppable droppableId={props.column.id} type="TASK">
+            {(provided: any, snapshot: any) => (
+              <Box
+                className={classes.TaskList}
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                isdragingover={snapshot.isDraggingOver.toString()}
+              >
+                {taskList()}
+                {provided.placeholder}
+              </Box>
+            )}
+          </Droppable>
+        </CardContent>
+      </Card>
       {open ? <TaskModal item={state} open={open} taskCloseHandler={taskCloseHandler} /> : null}
-    </div>
+    </Grid>
   );
 }
 

@@ -99,18 +99,17 @@ class App extends Component {
   };
 
   getData() {
-    return this.state.columnOrder.map((columnId: any,key :any) => {
+    return this.state.columnOrder.map((columnId: any, key: any) => {
       const column = this.state.columns[columnId];
       const tasks = column.taskIds.map((taskId: any, key: any) => this.state.tasks[taskId]);
       return (
-        <Box p={1}>
+        <Box p={1} key={key}>
           <Column key={column.id} column={column} task={tasks} />
         </Box>
       );
     });
   }
 
-  
   //9 am thurs 11fr
   render() {
     // const classes = this.props.classes;
