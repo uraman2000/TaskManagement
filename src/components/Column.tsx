@@ -1,41 +1,22 @@
 import React, { Component } from "react";
 import Task from "./Task";
 import { Droppable } from "react-beautiful-dnd";
-import styled from "styled-components";
 import TaskModal from "./TaskModal";
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardContent,
-  Typography,
-  Container,
-  Grid,
-  CardHeader
-} from "@material-ui/core";
+import { Card, CardContent, Typography, Grid, Box } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
-
-const Container2 = styled.div`
-  margin: 8px;
-  border: 1px solid lightgrey;
-  border-radius: 2px;
-  width: 220px;
-  display: flex;
-  flex-direction: column;
-`;
-const Title = styled.h3`
-  padding: 8px;
-`;
-const TaskList = styled.div`
-  padding: 8px;
-  transition: background-color 0.2s ease;
-  flex-grow: 1;
-  min-height: 100px;
-`;
+import { grey } from "@material-ui/core/colors";
 
 const styles = {
   container: {
-    width: 220
+    width: 220,
+    backgroundColor: grey[50],
+    borderRadius: "20px"
+  },
+  TaskList: {
+    padding: "8px",
+    transition: "background-color 0.2s ease",
+    flexGrow: 1,
+    minHeight: "100px"
   }
 };
 
@@ -80,14 +61,15 @@ class Column extends Component<IColumnProps, IColumnState> {
               </Typography>
               <Droppable droppableId={this.props.column.id} type="TASK">
                 {(provided: any, snapshot: any) => (
-                  <TaskList
+                  <Box
+                    className={classes.TaskList}
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                     isDraggingOver={snapshot.isDraggingOver}
                   >
                     {this.taskList()}
                     {provided.placeholder}
-                  </TaskList>
+                  </Box>
                 )}
               </Droppable>
             </CardContent>

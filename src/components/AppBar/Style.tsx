@@ -1,5 +1,4 @@
-import React from "react";
-import { fade, makeStyles, Theme, createStyles, useTheme } from "@material-ui/core/styles";
+import { fade, makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 const drawerWidth = 240;
 

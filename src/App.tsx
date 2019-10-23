@@ -1,26 +1,9 @@
 import React, { Component } from "react";
 import Column from "./components/Column";
 import { DragDropContext } from "react-beautiful-dnd";
-import styled from "styled-components";
-import TaskModal from "./components/TaskModal";
-import {
-  Button,
-  Box,
-  Fab,
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  Typography,
-  CardActions,
-  Container,
-  createMuiTheme,
-  useMediaQuery
-} from "@material-ui/core";
+import AppBar from "./components/AppBar/AppBar";
+import { Box, Fab, Container } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import { grey } from "@material-ui/core/colors";
-import { ThemeProvider } from "@material-ui/styles";
-
 const initData: IAppProps = {
   tasks: {
     "task-1": { id: "task-1", title: "Take out the garbage", description: "this is desc" },
@@ -49,7 +32,6 @@ const initData: IAppProps = {
   // Facilitate reordering of the columns
   columnOrder: ["column-1", "column-2", "column-3"]
 };
-
 
 class App extends Component {
   state = initData;
@@ -133,21 +115,24 @@ class App extends Component {
 
     return (
       <Container>
-        <DragDropContext onDragEnd={this.onDragEnd.bind(this)}>
-          {/* <Box display="flex" justifyContent="flex-start"> */}
-          <Box display="flex" alignItems="flex-start">
-            {this.getData()}
-            <Box mt={2}>
-              <Fab variant="extended" size="medium" color="primary" aria-label="add">
-                <AddIcon />
-                add item
-              </Fab>
-            </Box>
-          </Box>
-        </DragDropContext>
+        <AppBar />
 
+        <Box mt={15}>
+          <DragDropContext onDragEnd={this.onDragEnd.bind(this)}>
+            {/* <Box display="flex" justifyContent="flex-start"> */}
+            <Box display="flex" alignItems="flex-start">
+              {this.getData()}
+              <Box mt={2}>
+                <Fab variant="extended" size="medium" color="primary" aria-label="add">
+                  <AddIcon />
+                  add item
+                </Fab>
+              </Box>
+            </Box>
+          </DragDropContext>
+        </Box>
         {/* <AppDrawer /> */}
-        {/* <AppBar /> */}
+
         {/* {this.getData} */}
         {/* <DragDropContext onDragEnd={this.onDragEnd}>{this.getData}</DragDropContext> */}
       </Container>

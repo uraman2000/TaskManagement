@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import { fade, makeStyles, Theme, createStyles, useTheme } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -26,7 +26,6 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import Styles from "./Style";
-
 
 export default function PrimarySearchAppBar() {
   const classes = Styles();
