@@ -13,6 +13,7 @@ import {
   TextField,
   Typography
 } from "@material-ui/core";
+import CustomTitle from "./CustomTitle";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -70,7 +71,9 @@ export default function TaskModal(props: ITaskModalProps) {
         scroll={"body"}
         aria-labelledby="scroll-dialog-title"
       >
-        <DialogTitle id="scroll-dialog-title">{props.item.title}</DialogTitle>
+        <DialogTitle id="scroll-dialog-title">
+          <CustomTitle isUpperCase={false} title={props.item.title} />
+        </DialogTitle>
         <DialogContent>
           {/* {[...new Array(50)]
             .map(

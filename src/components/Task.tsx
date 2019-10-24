@@ -1,6 +1,6 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { Box } from "@material-ui/core";
+import { Box, Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
@@ -23,7 +23,7 @@ export default function Task(props: ITaskProps) {
     <Box className={classes.paper} onClick={props.onClick}>
       <Draggable draggableId={props.task.id} index={props.index}>
         {(provided: any, snapshot: any) => (
-          <Box
+          <Card
             className={classes.root}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
@@ -31,7 +31,7 @@ export default function Task(props: ITaskProps) {
             isdragging={snapshot.isDragging.toString()}
           >
             {props.task.title}
-          </Box>
+          </Card>
         )}
       </Draggable>
     </Box>

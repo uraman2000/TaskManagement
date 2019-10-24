@@ -2,8 +2,10 @@ import React from "react";
 import Task from "./Task";
 import { Droppable } from "react-beautiful-dnd";
 import TaskModal from "./TaskModal";
-import { Card, CardContent, Typography, Grid, Box, makeStyles } from "@material-ui/core";
+import { Card, CardContent, Typography, Grid, Box, makeStyles, TextField } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
+import InputBase from "@material-ui/core/InputBase";
+import CustomTitle from "./CustomTitle";
 
 const useStyles = makeStyles({
   container: {
@@ -46,9 +48,7 @@ export default function Column(props: IColumnProps) {
         {/* <CardHeader title={this.props.column.title}></CardHeader> */}
 
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {props.column.title}
-          </Typography>
+          <CustomTitle isUpperCase={true} title={props.column.title} />
           <Droppable droppableId={props.column.id} type="TASK">
             {(provided: any, snapshot: any) => (
               <Box
