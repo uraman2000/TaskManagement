@@ -11,15 +11,25 @@ import {
   Paper,
   Grid,
   TextField,
-  Typography
+  Typography,
+  List,
+  ListItemAvatar,
+  Avatar,
+  ListItem,
+  ListItemText,
+  Box
 } from "@material-ui/core";
 import CustomTitle from "./CustomTitle";
+import DescriptionIcon from "@material-ui/icons/Description";
+import ModalList from "./ModalList";
+import { grey } from "@material-ui/core/colors";
+import AddCheckList from "./AddCheckList";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     textAreaButton: {
       ...theme.typography.button,
-      backgroundColor: "rgba(9,30,66,.04)",
+      backgroundColor: grey[200],
       padding: theme.spacing(1),
       minHeight: "40px",
       display: "block",
@@ -63,63 +73,73 @@ export default function TaskModal(props: ITaskModalProps) {
 
   return (
     <Paper>
-      <Dialog
-        fullWidth={true}
-        maxWidth={"md"}
-        open={open}
-        onClose={handleClose}
-        scroll={"body"}
-        aria-labelledby="scroll-dialog-title"
-      >
-        <DialogTitle id="scroll-dialog-title">
-          <CustomTitle isUpperCase={false} title={props.item.title} />
-        </DialogTitle>
-        <DialogContent>
-          {/* {[...new Array(50)]
-            .map(
-              () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-            )
-            .join("\n")} */}
+      <Box>
+        <AddCheckList />
+      </Box>
 
-          <Grid container spacing={3} className={classes.overFLowRemove}>
-            <Grid item xs={9}>
-              {!openTextArea ? (
-                <Typography noWrap onClick={handleTextArea} className={classes.textAreaButton}>
-                  {textAreaInput ? textAreaInput : "Add a more detailed description…"}
-                </Typography>
-              ) : (
-                <TextField
-                  fullWidth
-                  rows="8"
-                  onBlur={onOutFocus}
-                  value={textAreaInput}
-                  onChange={(e: any) => handleTextFieldChange(e)}
-                  autoFocus
-                  id="filled-dense-multiline"
-                  label="Description"
-                  margin="dense"
-                  variant="outlined"
-                  multiline
-                />
-              )}
+      <Box style={{ position: "absolute" }}>
+        <Dialog
+          fullWidth={true}
+          maxWidth={"md"}
+          open={open}
+          onClose={handleClose}
+          scroll={"body"}
+          aria-labelledby="scroll-dialog-title"
+        >
+          <DialogTitle id="scroll-dialog-title">
+            <CustomTitle isUpperCase={false} title={props.item.title} />
+          </DialogTitle>
+
+          <DialogContent>
+            <Grid container spacing={1} direction="row" alignItems="center">
+              <Grid item>
+                <DescriptionIcon />
+                <TextField id="standard-name" label="Name" margin="normal" />
+              </Grid>
+              <Grid item>
+                <Typography variant="h6">Description</Typography>
+              </Grid>
             </Grid>
-            <Grid item xs>
-              <Paper>xs</Paper>
+
+            <Grid container spacing={1} className={classes.overFLowRemove}>
+              <Grid item xs={9}>
+                <Box ml={4}>
+                  {!openTextArea ? (
+                    <Typography noWrap onClick={handleTextArea} className={classes.textAreaButton}>
+                      {textAreaInput ? textAreaInput : "Add a more detailed description…"}
+                    </Typography>
+                  ) : (
+                    <TextField
+                      fullWidth
+                      rows="8"
+                      onBlur={onOutFocus}
+                      value={textAreaInput}
+                      onChange={(e: any) => handleTextFieldChange(e)}
+                      autoFocus
+                      id="filled-dense-multiline"
+                      label="Description"
+                      margin="dense"
+                      variant="outlined"
+                      multiline
+                    />
+                  )}
+                </Box>
+              </Grid>
+              <Grid item xs>
+                <ModalList />
+              </Grid>
             </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Subscribe
-          </Button>
-        </DialogActions>
-      </Dialog>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleClose} color="primary">
+              Subscribe
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Box>
     </Paper>
   );
 }
