@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import Column from "./components/Column";
 import { DragDropContext } from "react-beautiful-dnd";
 import AppBar from "./components/AppBar/AppBar";
-import { Box, Fab, Container } from "@material-ui/core";
+import { Box, Fab, Container, Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 const initData: IAppProps = {
   tasks: {
@@ -14,7 +14,6 @@ const initData: IAppProps = {
   columns: {
     "column-1": {
       id: "column-1",
-
       title: "To do",
       taskIds: ["task-1", "task-2", "task-3", "task-4"]
     },
@@ -33,10 +32,10 @@ const initData: IAppProps = {
   columnOrder: ["column-1", "column-2", "column-3"]
 };
 
-class App extends Component {
-  state = initData;
+export default function App() {
+  const [state, setstate] = useState(initData);
 
-  onDragEnd = (result: any) => {
+  const onDragEnd = (result: any) => {
     const { destination, source, draggableId } = result;
 
     if (!destination) {
@@ -46,9 +45,9 @@ class App extends Component {
     if (destination.droppableId === source.droppableId && destination.index === source.index) {
       return;
     }
-
-    const start = this.state.columns[source.droppableId];
-    const finish = this.state.columns[destination.droppableId];
+    console.log(result);
+    const start = state.columns[source.droppableId];
+    const finish = state.columns[destination.droppableId];
 
     if (start === finish) {
       const newTaskIds = Array.from(start.taskIds);
@@ -61,14 +60,14 @@ class App extends Component {
       };
 
       const newState = {
-        ...this.state,
+        ...state,
         columns: {
-          ...this.state.columns,
+          ...state.columns,
           [newColumn.id]: newColumn
         }
       };
 
-      this.setState(newState);
+      setstate(newState);
       return;
     }
 
@@ -88,60 +87,80 @@ class App extends Component {
     };
 
     const newState = {
-      ...this.state,
+      ...state,
       columns: {
-        ...this.state.columns,
+        ...state.columns,
         [newStart.id]: newStart,
         [newFinish.id]: newFinish
       }
     };
-    this.setState(newState);
+
+    setstate(newState);
   };
 
-  getData() {
-    return this.state.columnOrder.map((columnId: any, key: any) => {
-      const column = this.state.columns[columnId];
-      const tasks = column.taskIds.map((taskId: any, key: any) => this.state.tasks[taskId]);
+  const getData = () => {
+    return state.columnOrder.map((columnId: any, key: any) => {
+      const column = state.columns[columnId];
+      const tasks = column.taskIds.map((taskId: any, key: any) => state.tasks[taskId]);
       return (
         <Box p={1} key={key}>
           <Column key={column.id} column={column} task={tasks} />
         </Box>
       );
     });
-  }
+  };
 
-  //9 am thurs 11fr
-  render() {
-    // const classes = this.props.classes;
+  const addColumn = () => {
+    const newColumn = {
+      id: "column-5",
+      title: "",
+      taskIds: []
+    };
 
-    return (
-      <Container>
-        <AppBar />
+    const newState = {
+      ...state,
+      columns: {
+        ...state.columns,
+        ["column-5"]: newColumn
+      },
+      columnOrder: [...state.columnOrder, "column-5"]
+    };
 
-        <Box mt={15}>
-          <DragDropContext onDragEnd={this.onDragEnd.bind(this)}>
-            {/* <Box display="flex" justifyContent="flex-start"> */}
-            <Box display="flex" alignItems="flex-start">
-              {this.getData()}
-              <Box mt={2}>
-                <Fab variant="extended" size="medium" color="primary" aria-label="add">
-                  <AddIcon />
-                  add item
-                </Fab>
-              </Box>
+    setstate(newState);
+    console.log(state);
+  };
+  return (
+    <Container>
+      <AppBar />
+
+      <Box mt={15}>
+        <DragDropContext onDragEnd={e => onDragEnd(e)}>
+          {/* <Box display="flex" justifyContent="flex-start"> */}
+          <Box display="flex" alignItems="flex-start">
+            {getData()}
+            <Box mt={2}>
+              <Fab
+                variant="extended"
+                component={"button"}
+                size="medium"
+                color="primary"
+                aria-label="add"
+                onClick={(e: any) => addColumn()}
+              >
+                <AddIcon />
+                add item
+              </Fab>
             </Box>
-          </DragDropContext>
-        </Box>
-        {/* <AppDrawer /> */}
+          </Box>
+        </DragDropContext>
+      </Box>
+      {/* <AppDrawer /> */}
 
-        {/* {this.getData} */}
-        {/* <DragDropContext onDragEnd={this.onDragEnd}>{this.getData}</DragDropContext> */}
-      </Container>
-    );
-  }
+      {/* {this.getData} */}
+      {/* <DragDropContext onDragEnd={this.onDragEnd}>{this.getData}</DragDropContext> */}
+    </Container>
+  );
 }
-
-export default App;
 
 interface IAppProps {
   columnOrder: any;

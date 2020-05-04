@@ -37,6 +37,7 @@ export default function CustomTitle(props: ICustomTittleProps) {
       inputProps={{
         className: inputClasses
       }}
+      placeholder="click here to add title"
       className={classes.title}
       defaultValue={props.title}
     />
